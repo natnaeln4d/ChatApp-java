@@ -1,4 +1,4 @@
 # ChatApp-java
 chatApp by java socket
 ##
-User Interface by java
+User Interface by javaf
