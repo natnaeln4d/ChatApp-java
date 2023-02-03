@@ -7,6 +7,7 @@ module com.example.chatapp {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires java.rmi;
 
     opens com.example.chatapp to javafx.fxml;
     exports com.example.chatapp;
