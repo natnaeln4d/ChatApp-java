@@ -5,35 +5,56 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ChatA{
-    public String message;
-    public ChatA(String m){
-        message=m;
+public   ServerSocket serverSocket;
+public Socket ss;
+public  DataInputStream din;
+public DataOutputStream dos;
+public BufferedReader br;
+public  String str="",str2="";
+
+
+
+    public void connectToServer() throws IOException {
+        serverSocket=new ServerSocket(3304);
+        ss=serverSocket.accept();
+        din=new DataInputStream(ss.getInputStream());
+        dos=new DataOutputStream(ss.getOutputStream());
+        br=new BufferedReader(new InputStreamReader(System.in));
+
     }
-
-    public static void main(String[] args) throws IOException {
-
-       Thread t1=new Thread(new ChatThred());
-        t1.start();
-//        Thread t2=new Thread(new ChatThred());
-//        t2.start();
-
-        try {
-            ServerSocket serverSocket=new ServerSocket(3304);
-            Socket ss=serverSocket.accept();
-            DataInputStream din=new DataInputStream(ss.getInputStream());
-            DataOutputStream dos=new DataOutputStream(ss.getOutputStream());
-            BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-            String str="",str2="";
-            while (!str.equals("stop")){
+    public void senddata(String message) {
+        while (!str.equals("stop")) {
+            try {
                 System.out.println("chat main\n");
-                str=br.readLine();
+                str = message;
                 dos.writeUTF(str);
-                str2=din.readUTF();
-                System.out.println("client:"+str2);
+            } catch (IOException E) {
+                System.out.println(E.getMessage());
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+
         }
+    }
+    public String readdata(){
+        try {
+            while(str2=="stop") {
+                str2 = din.readUTF();
+            }
+
+        }catch (IOException E){
+            System.out.println(E.getMessage());
+        }
+        return str2;
+    }
+
+    public static void main(String[] args) {
+        Thread t1=new Thread(new ChatThred());
+        t1.start();
+        ChatA chatA=new ChatA();
+        chatA.readdata();
+
 
     }
+
 }
+

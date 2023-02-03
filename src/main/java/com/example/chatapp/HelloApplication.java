@@ -502,7 +502,8 @@ public void ChatApp(Stage stage){
             Text2.getChildren().add(Textbox2);
             BigBox.getChildren().add(Text2);
             BigBox.setPadding(new Insets(50,0,0,5));
-            ChatA c=new ChatA(message);
+              ChatA chat=new ChatA();
+              chat.senddata(message);
 
 
         }
